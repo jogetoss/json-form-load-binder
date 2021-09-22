@@ -1,0 +1,98 @@
+[{
+    "title" : "@@app.jsonLoadBinder.config@@",
+    "properties" : [{
+        "name" : "jsonUrl",
+        "label" : "@@app.jsonLoadBinder.jsonUrl@@",
+        "description" : "@@app.jsonLoadBinder.jsonUrl.desc@@",
+        "type" : "textfield",
+        "required" : "true"
+    },
+    {
+        "name" : "requestType",
+        "label" : "@@app.jsonLoadBinder.requestType@@",
+        "type" : "selectbox",
+        "value" : "",
+        "options" : [{
+            "value" : "",
+            "label" : "@@app.jsonLoadBinder.requestType.get@@"
+        },
+        {
+            "value" : "post",
+            "label" : "@@app.jsonLoadBinder.requestType.post@@"
+        }]
+    },
+    {
+        "name" : "postMethod",
+        "label" : "@@app.jsonLoadBinder.postMethod@@",
+        "type" : "selectbox",
+        "value" : "",
+        "options" : [{
+            "value" : "",
+            "label" : "@@app.jsonLoadBinder.postMethod.parameters@@"
+        },
+        {
+            "value" : "jsonPayload",
+            "label" : "@@app.jsonLoadBinder.postMethod.jsonPayload@@"
+        }],
+        "control_field" : "requestType",
+        "control_value" : "post",
+        "control_use_regex": "false"
+    },
+    {
+        "name" : "params",
+        "label" : "@@app.jsonLoadBinder.postMethod.parameters@@",
+        "type" : "grid",
+        "columns" : [{
+            "key" : "name",
+            "label" : "@@app.jsonLoadBinder.name@@"
+        },{
+            "key" : "value",
+            "label" : "@@app.jsonLoadBinder.value@@"
+        }],
+        "control_field": "postMethod",
+        "control_value": "^((?!custom).)*$",
+        "control_use_regex": "true"
+    },
+    {
+        "name" : "headers",
+        "label" : "@@app.jsonLoadBinder.header@@",
+        "description" : "@@app.jsonLoadBinder.postMethod.paramsheadersdesc@@",
+        "type" : "grid",
+        "columns" : [{
+            "key" : "name",
+            "label" : "@@app.jsonLoadBinder.name@@"
+        },{
+            "key" : "value",
+            "label" : "@@app.jsonLoadBinder.value@@"
+        }]
+    },
+    {
+        "name" : "baseObjName",
+        "label" : "@@app.jsonLoadBinder.baseObjectName@@",
+        "description" : "@@app.jsonLoadBinder.baseObjectName.desc@@",
+        "type" : "textfield"
+    },
+    {
+        "name":"mappings",
+        "label":"@@app.jsonLoadBinder.mappings@@",
+        "type":"grid",
+        "columns":[{
+            "key":"attribute",
+            "label":"@@app.jsonLoadBinder.attribute@@"
+        },
+        {
+            "key":"fieldId",
+            "label":"@@app.jsonLoadBinder.fieldId@@"
+        }]
+    },
+    {
+        "name" : "debugMode",
+        "label" : "@@app.jsonLoadBinder.debugMode@@",
+        "type" : "checkbox",
+        "options" : [{
+            "value" : "true",
+            "label" : ""
+        }]
+    }
+    ]
+}]
