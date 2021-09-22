@@ -1,7 +1,6 @@
 # Description
 
-This repository is meant to serve as a general template for how to set up new repositories in the JogetOSS organization. 
-
+JSON Form Load Binder is a plugin to be used in form's binder or inside form grid's binder to load data from JSON.
 # Getting Help
 
 JogetOSS is a community-led team for open source software related to the [Joget](https://www.joget.org) no-code/low-code application platform.
