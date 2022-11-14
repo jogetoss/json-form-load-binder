@@ -124,7 +124,7 @@ public class JsonFormLoadBinder extends FormBinder implements FormLoadBinder, Fo
                             Map mapping = (HashMap) o;
                             String attribute = mapping.get("attribute").toString();
                             String fieldId = mapping.get("fieldId").toString();
-                            String value = (String) jsonObject.get(attribute);
+                            String value = (String) getObjectFromMap(attribute, jsonObject);
                             row.setProperty(fieldId, value);
                         }
                     }
@@ -250,11 +250,19 @@ public class JsonFormLoadBinder extends FormBinder implements FormLoadBinder, Fo
             if (key.contains(".")) {
                 String subKey = key.substring(key.indexOf(".") + 1);
                 key = key.substring(0, key.indexOf("."));
+                
+                Object tempObj = getObjectFromMap(key, object);
+                Map tempObjectMap = null;
+                
+                if (tempObj instanceof Object[]) {
+                    Object [] tempObjArray = (Object[]) tempObj;
+                    tempObjectMap = (Map) tempObjArray[0];
+                } else if (tempObj instanceof Map) {
+                    tempObjectMap = (Map) tempObj;
+                }
 
-                Map tempObject = (Map) getObjectFromMap(key, object);
-
-                if (tempObject != null) {
-                    return getObjectFromMap(subKey, tempObject);
+                if (tempObjectMap != null) {
+                    return getObjectFromMap(subKey, tempObjectMap);
                 }
             } else if ((key.contains("[")) && (key.contains("]"))) {
                 String tempKey = key.substring(0, key.indexOf("["));
