@@ -114,7 +114,22 @@ public class JsonFormLoadBinder extends FormBinder implements FormLoadBinder, Fo
                         }
                     }
                 } else {
-                    LogUtil.info(getClass().getName(), "Invalid Base Object Name.");
+//                    LogUtil.info(getClass().getName(), "Invalid Base Object Name.");
+
+                    //Support single object responses
+                    FormRow row = new FormRow();
+
+                    if (mappings != null && mappings.length > 0) {
+                        for (Object o : mappings) {
+                            Map mapping = (HashMap) o;
+                            String attribute = mapping.get("attribute").toString();
+                            String fieldId = mapping.get("fieldId").toString();
+                            String value = (String) jsonObject.get(attribute);
+                            row.setProperty(fieldId, value);
+                        }
+                    }
+                    
+                    results.add(row);
                 }
             }
         } catch (Exception e) {
