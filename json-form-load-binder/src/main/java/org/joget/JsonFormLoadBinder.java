@@ -125,7 +125,9 @@ public class JsonFormLoadBinder extends FormBinder implements FormLoadBinder, Fo
                             String attribute = mapping.get("attribute").toString();
                             String fieldId = mapping.get("fieldId").toString();
                             String value = (String) getObjectFromMap(attribute, jsonObject);
-                            row.setProperty(fieldId, value);
+                            if (value != null && !value.isBlank()) {
+                                row.setProperty(fieldId, value);
+                            }
                         }
                     }
                     
@@ -256,6 +258,9 @@ public class JsonFormLoadBinder extends FormBinder implements FormLoadBinder, Fo
                 
                 if (tempObj instanceof Object[]) {
                     Object [] tempObjArray = (Object[]) tempObj;
+                    if (tempObjArray.length == 0) {
+                        return null;
+                    }
                     tempObjectMap = (Map) tempObjArray[0];
                 } else if (tempObj instanceof Map) {
                     tempObjectMap = (Map) tempObj;
