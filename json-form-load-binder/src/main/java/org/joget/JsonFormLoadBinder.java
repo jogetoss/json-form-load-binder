@@ -114,7 +114,24 @@ public class JsonFormLoadBinder extends FormBinder implements FormLoadBinder, Fo
                         }
                     }
                 } else {
-                    LogUtil.info(getClass().getName(), "Invalid Base Object Name.");
+//                    LogUtil.info(getClass().getName(), "Invalid Base Object Name.");
+
+                    //Support single object responses
+                    FormRow row = new FormRow();
+
+                    if (mappings != null && mappings.length > 0) {
+                        for (Object o : mappings) {
+                            Map mapping = (HashMap) o;
+                            String attribute = mapping.get("attribute").toString();
+                            String fieldId = mapping.get("fieldId").toString();
+                            String value = (String) getObjectFromMap(attribute, jsonObject);
+                            if (value != null && !value.isBlank()) {
+                                row.setProperty(fieldId, value);
+                            }
+                        }
+                    }
+                    
+                    results.add(row);
                 }
             }
         } catch (Exception e) {
@@ -235,11 +252,22 @@ public class JsonFormLoadBinder extends FormBinder implements FormLoadBinder, Fo
             if (key.contains(".")) {
                 String subKey = key.substring(key.indexOf(".") + 1);
                 key = key.substring(0, key.indexOf("."));
+                
+                Object tempObj = getObjectFromMap(key, object);
+                Map tempObjectMap = null;
+                
+                if (tempObj instanceof Object[]) {
+                    Object [] tempObjArray = (Object[]) tempObj;
+                    if (tempObjArray.length == 0) {
+                        return null;
+                    }
+                    tempObjectMap = (Map) tempObjArray[0];
+                } else if (tempObj instanceof Map) {
+                    tempObjectMap = (Map) tempObj;
+                }
 
-                Map tempObject = (Map) getObjectFromMap(key, object);
-
-                if (tempObject != null) {
-                    return getObjectFromMap(subKey, tempObject);
+                if (tempObjectMap != null) {
+                    return getObjectFromMap(subKey, tempObjectMap);
                 }
             } else if ((key.contains("[")) && (key.contains("]"))) {
                 String tempKey = key.substring(0, key.indexOf("["));
